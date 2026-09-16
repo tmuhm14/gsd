@@ -5,6 +5,8 @@ import { env } from "@/env";
 import {
   breakdownSchema,
   clarifySchema,
+  MAX_BREAKDOWN_ACTIONS,
+  MAX_CONTEXTS,
   summarizeSchema,
   type Proposal,
   type Source,
@@ -58,7 +60,15 @@ export async function runClarify(body: string): Promise<Proposal> {
 
   const parsed = response.parsed_output;
   if (!parsed) throw parseFailure();
-  return { action: "clarify", ...parsed };
+
+  return {
+    action: "clarify",
+    ...parsed,
+    contexts: parsed.contexts
+      .map((context) => context.trim().toLowerCase())
+      .filter(Boolean)
+      .slice(0, MAX_CONTEXTS),
+  };
 }
 
 export async function runBreakdown(body: string): Promise<Proposal> {
@@ -73,7 +83,14 @@ export async function runBreakdown(body: string): Promise<Proposal> {
 
   const parsed = response.parsed_output;
   if (!parsed) throw parseFailure();
-  return { action: "breakdown", ...parsed };
+
+  const actions = parsed.actions
+    .map((action) => action.trim())
+    .filter(Boolean)
+    .slice(0, MAX_BREAKDOWN_ACTIONS);
+  if (actions.length === 0) throw parseFailure();
+
+  return { action: "breakdown", actions };
 }
 
 export async function runSummarize(body: string): Promise<Proposal> {

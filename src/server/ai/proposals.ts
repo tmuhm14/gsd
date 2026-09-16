@@ -25,11 +25,25 @@ export const AI_ACTION_LABELS: Record<AiAction, string> = {
   summarize: "Summarize",
 };
 
+/**
+ * Limits live in the descriptions, not as `min`/`max` constraints.
+ *
+ * Two reasons. The API rejects array size keywords in a structured-output
+ * schema outright (the macOS client hit a 400 on `maxItems`). And a Zod
+ * constraint is also enforced when *parsing* the reply, so a model returning
+ * one extra context would fail the whole call instead of being trimmed. The
+ * caller clamps instead — see MAX_CONTEXTS / MAX_BREAKDOWN_ACTIONS.
+ */
+export const MAX_CONTEXTS = 5;
+export const MAX_BREAKDOWN_ACTIONS = 12;
+
 /** GTD triage of a captured item. */
 export const clarifySchema = z.object({
   bucket: z.enum(BUCKETS),
   kind: z.enum(ITEM_KINDS),
-  contexts: z.array(z.string()).max(5),
+  contexts: z
+    .array(z.string())
+    .describe(`At most ${MAX_CONTEXTS} lowercase single-word contexts`),
   nextAction: z
     .string()
     .describe("A single concrete physical next action, or empty if not actionable"),
@@ -39,9 +53,9 @@ export const clarifySchema = z.object({
 export const breakdownSchema = z.object({
   actions: z
     .array(z.string())
-    .min(1)
-    .max(12)
-    .describe("Concrete physical next actions, each doable in one sitting"),
+    .describe(
+      `Between 1 and ${MAX_BREAKDOWN_ACTIONS} concrete physical next actions, each doable in one sitting`,
+    ),
 });
 
 export const summarizeSchema = z.object({

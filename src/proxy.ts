@@ -4,10 +4,13 @@ import { sessionOptions, type Session } from "@/lib/session";
 
 /**
  * Gate every page behind the session cookie. The tRPC API enforces this again
- * via `protectedProcedure` — middleware is for redirecting humans, not for
+ * via `protectedProcedure` — this layer is for redirecting humans, not for
  * security on its own.
+ *
+ * Named `proxy` in a `proxy.ts` file: Next 16 deprecated the `middleware`
+ * convention.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const response = NextResponse.next();
   const session = await getIronSession<Session>(request, response, sessionOptions);
 
