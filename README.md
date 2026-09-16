@@ -79,6 +79,28 @@ it: **Clarify**, **Break into next actions**, **Research** (web search), and
 Set `ANTHROPIC_API_KEY` to enable them. Without it the app runs normally and the
 panel says AI is off.
 
+## Sync with the macOS app
+
+The macOS client pushes and pulls through `POST /api/sync` — one round trip
+does both. Contract: [`docs/api/sync.yaml`](docs/api/sync.yaml).
+
+Two rules:
+
+- **Last write wins, per item, by `updatedAt`.** Ties go to the server, so
+  repeated syncs settle instead of flip-flopping. A rejected push comes back
+  in `conflicts` for the client to adopt.
+- **The cursor is `server_seq`, not a timestamp.** A database trigger bumps it
+  on every write. Two clocks that disagree by a second would silently skip
+  rows at a timestamp boundary; a sequence is assigned by one authority and
+  only moves forward.
+
+Deletes are tombstones (`deleted_at`). A hard delete would be re-created by
+the other client on its next push.
+
+Apply `db/sql/002_sync.sql` before first use. Images do **not** sync — they
+live on the Mac's disk, so a note with an image syncs its text and shows the
+raw markdown here.
+
 ## Architecture notes
 
 **The body's first line is the title.** `title` is stored as a derived cache so
@@ -109,7 +131,5 @@ password hashing into middleware breaks the build.
 
 ## Not built yet
 
-- **Sync with the macOS app.** The schema is ready for it (client-generatable
-  UUID keys, `updated_at` as the last-write-wins key, delete tombstones), but
-  the Mac app still reads and writes its local JSON file. Nothing syncs today.
-- Weekly review, drag and drop between buckets, image attachments.
+- Image sync (attachments are Mac-only; text syncs fine).
+- Weekly review and drag-and-drop between buckets on the web.

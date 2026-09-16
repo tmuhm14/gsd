@@ -23,6 +23,11 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Everything except the login page, auth endpoints and static assets.
-  matcher: ["/((?!login|api/auth|_next/static|_next/image|favicon.ico|icon|manifest.webmanifest).*)"],
+  /**
+   * Pages only. Every `/api` route is excluded deliberately: they enforce
+   * their own auth and answer 401, and redirecting an API call to an HTML
+   * login page gives a non-browser client (the macOS sync engine) a 200 full
+   * of HTML instead of a status it can act on.
+   */
+  matcher: ["/((?!api/|login|_next/static|_next/image|favicon.ico|icon|manifest.webmanifest).*)"],
 };

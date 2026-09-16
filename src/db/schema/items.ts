@@ -1,4 +1,5 @@
 import {
+  bigint,
   boolean,
   index,
   pgTable,
@@ -44,11 +45,18 @@ export const items = pgTable(
     completedAt: timestamp("completed_at", { withTimezone: true }),
     /** Tombstone for sync; set instead of deleting the row. */
     deletedAt: timestamp("deleted_at", { withTimezone: true }),
+    /**
+     * Monotonic write counter, maintained by a database trigger — read-only
+     * from the app's point of view. This is the sync cursor; see 002_sync.sql
+     * for why it isn't a timestamp.
+     */
+    serverSeq: bigint("server_seq", { mode: "number" }).notNull().default(0),
   },
   (table) => [
     index("items_bucket_idx").on(table.bucket),
     index("items_updated_at_idx").on(table.updatedAt),
     index("items_project_id_idx").on(table.projectId),
+    index("items_server_seq_idx").on(table.serverSeq),
   ],
 );
 

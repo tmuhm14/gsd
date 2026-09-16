@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  title: GTD Notes sync API
+  version: 1.0.0
+  description: |
+    Delta sync between the macOS client (task-notes-app) and this service.
+
+    One round trip does both directions: `changes` are pushed, then everything
+    written after `since` is returned. Conflicts resolve last-write-wins by
+    `updatedAt`, with ties going to the server.
+
+    The cursor is a database-assigned sequence, not a timestamp — client clocks
+    disagree and would skip rows at the boundary.
+
+servers:
+  - url: https://your-deployment.vercel.app
+    description: Production
+
+paths:
+  /api/sync:
+    post:
+      summary: Push local changes and pull remote ones
+      security:
+        - sessionCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                since:
+                  type: integer
+                  minimum: 0
+                  default: 0
+                  description: Cursor from the previous response; 0 for a full sync.
+                limit:
+                  type: integer
+                  minimum: 1
+                  maximum: 500
+                  description: Maximum items to return.
+                changes:
+                  type: array
+                  maxItems: 500
+                  items:
+                    $ref: '#/components/schemas/SyncItem'
+      responses:
+        '200':
+          description: Applied changes and the remote delta
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, cursor, hasMore, applied, conflicts]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SyncItem'
+                  cursor:
+                    type: integer
+                    description: Pass as `since` next time.
+                  hasMore:
+                    type: boolean
+                    description: More pages remain; call again with the new cursor.
+                  applied:
+                    type: array
+                    items: { type: string, format: uuid }
+                  conflicts:
+                    type: array
+                    description: Server copies that were newer; the client should adopt these.
+                    items:
+                      $ref: '#/components/schemas/SyncItem'
+        '400': { description: Malformed request }
+        '401': { description: Not signed in }
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: task_notes_session
+      description: Obtained from POST /api/auth/login.
+
+  schemas:
+    SyncItem:
+      type: object
+      required:
+        [id, body, kind, bucket, projectId, dueDate, deferDate, energy,
+         waitingOn, pinned, createdAt, updatedAt, completedAt, deletedAt]
+      properties:
+        id: { type: string, format: uuid, description: Client-generatable. }
+        body: { type: string, description: "Markdown. First line is the title." }
+        kind: { type: string, enum: [note, action, project] }
+        bucket:
+          type: string
+          enum: [inbox, next, waiting, scheduled, someday, reference, done, trash]
+        projectId: { type: [string, 'null'], format: uuid }
+        dueDate: { type: [string, 'null'], format: date-time }
+        deferDate: { type: [string, 'null'], format: date-time }
+        energy: { type: [string, 'null'], enum: [low, medium, high, null] }
+        waitingOn: { type: [string, 'null'] }
+        pinned: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt:
+          type: string
+          format: date-time
+          description: The last-write-wins comparison key.
+        completedAt: { type: [string, 'null'], format: date-time }
+        deletedAt:
+          type: [string, 'null']
+          format: date-time
+          description: Tombstone. Set instead of removing the row.

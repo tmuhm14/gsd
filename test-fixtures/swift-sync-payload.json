@@ -1,0 +1,53 @@
+{
+  "changes" : [
+    {
+      "body" : "Call @sam about the invoice\n- [ ] ring back",
+      "bucket" : "waiting",
+      "completedAt" : "2026-05-23T01:33:20.000Z",
+      "createdAt" : "2026-02-02T02:40:00.000Z",
+      "deferDate" : "2026-05-17T06:40:00.000Z",
+      "deletedAt" : null,
+      "dueDate" : "2026-05-28T20:26:40.000Z",
+      "energy" : "high",
+      "id" : "3f1a5c22-9b7e-4d31-8a55-6c0d2e7f1b90",
+      "kind" : "action",
+      "pinned" : true,
+      "projectId" : null,
+      "updatedAt" : "2026-05-05T16:53:20.000Z",
+      "waitingOn" : "Sam"
+    },
+    {
+      "body" : "Just a thought",
+      "bucket" : "inbox",
+      "completedAt" : null,
+      "createdAt" : "2026-02-02T02:40:00.000Z",
+      "deferDate" : null,
+      "deletedAt" : null,
+      "dueDate" : null,
+      "energy" : null,
+      "id" : "8c2e4b10-5d63-4a29-9f81-2b7c5e9a0d44",
+      "kind" : "note",
+      "pinned" : false,
+      "projectId" : null,
+      "updatedAt" : "2026-02-02T02:40:00.000Z",
+      "waitingOn" : null
+    },
+    {
+      "body" : "Gone",
+      "bucket" : "inbox",
+      "completedAt" : null,
+      "createdAt" : "2026-02-02T02:40:00.000Z",
+      "deferDate" : null,
+      "deletedAt" : "2026-06-09T10:13:20.000Z",
+      "dueDate" : null,
+      "energy" : null,
+      "id" : "b41d7f88-3c05-4e17-a6d2-90f3e15c7a62",
+      "kind" : "note",
+      "pinned" : false,
+      "projectId" : null,
+      "updatedAt" : "2026-06-09T10:13:20.000Z",
+      "waitingOn" : null
+    }
+  ],
+  "since" : 0
+}

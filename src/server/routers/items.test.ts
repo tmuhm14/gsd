@@ -66,6 +66,7 @@ const sampleRow = {
   updatedAt: new Date(),
   completedAt: null,
   deletedAt: null,
+  serverSeq: 1,
 } satisfies ItemRow;
 
 describe("auth", () => {
