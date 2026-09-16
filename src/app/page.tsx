@@ -7,6 +7,7 @@ import { BucketNav } from "@/components/BucketNav";
 import { Editor } from "@/components/Editor";
 import { Inspector, type Draft } from "@/components/Inspector";
 import { ItemRow } from "@/components/ItemRow";
+import { AiPanel } from "@/components/AiPanel";
 import { BUCKET_LABELS, type Bucket } from "@/lib/gtd";
 import { relativeDate, type SlashAction } from "@/lib/slashCommands";
 import type { ItemRow as Row } from "@/db/schema/items";
@@ -271,8 +272,17 @@ function ItemDetail({
         />
 
         {showInspector ? (
-          <aside className="border-t border-neutral-800 lg:w-64 lg:shrink-0 lg:border-l lg:border-t-0">
+          <aside className="border-t border-neutral-800 lg:w-72 lg:shrink-0 lg:overflow-y-auto lg:border-l lg:border-t-0">
             <Inspector draft={draft} onChange={(changes) => onSave(changes)} />
+            <AiPanel
+              itemId={item.id}
+              body={body}
+              onApply={(changes) => {
+                // Keep the editor in step with what we just wrote.
+                if (changes.body !== undefined) setBody(changes.body);
+                onSave(changes);
+              }}
+            />
           </aside>
         ) : null}
       </div>

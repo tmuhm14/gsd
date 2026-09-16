@@ -70,6 +70,15 @@ Use Neon's **pooled** connection string. The app uses Neon's HTTP driver, which
 suits serverless functions — there's no long-lived pool to exhaust across cold
 starts.
 
+## AI actions
+
+Open a note, tap ⚙ to show the properties panel, and the AI actions sit beneath
+it: **Clarify**, **Break into next actions**, **Research** (web search), and
+**Summarize**. Results are proposed in a panel with Apply and Discard.
+
+Set `ANTHROPIC_API_KEY` to enable them. Without it the app runs normally and the
+panel says AI is off.
+
 ## Architecture notes
 
 **The body's first line is the title.** `title` is stored as a derived cache so
@@ -85,6 +94,14 @@ reappearing at the next sync.
 port of the macOS app's `Markdown` enum. Both clients must agree on what a line
 means — a checkbox ticked on the phone has to read as ticked on the Mac — so
 the logic is mirrored rather than allowed to diverge.
+
+**The AI layer cannot write to the database.** `ai.run` loads a note, calls
+Claude, and returns a *proposal*. Applying it goes through the ordinary
+`items.update` mutation, so there is one write path, the user commits every
+change, and a prompt-injected response cannot quietly edit a note. Note text is
+fenced in `<note>` tags and the system prompt states that its contents are data,
+never instructions. `applyProposal` only ever appends sections — tests assert
+that no action can drop text the user wrote.
 
 **`session.ts` and `password.ts` are separate on purpose.** Edge middleware
 imports the session config; `node:crypto` is not available there, so pulling
