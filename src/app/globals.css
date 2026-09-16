@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-plate: oklch(0.21 0.02 275);
+  --color-plate-raised: oklch(0.25 0.02 275);
+  --color-edge: oklch(0.32 0.02 275);
+  --color-brand: oklch(0.62 0.19 285);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-neutral-950 text-neutral-100 antialiased;
+  /* Room for the iOS home indicator when installed to the home screen. */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* The editor is a plain textarea; keep it from fighting the page scroll. */
+textarea {
+  field-sizing: content;
+}
