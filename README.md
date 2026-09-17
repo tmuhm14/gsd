@@ -79,6 +79,20 @@ it: **Clarify**, **Break into next actions**, **Research** (web search), and
 Set `ANTHROPIC_API_KEY` to enable them. Without it the app runs normally and the
 panel says AI is off.
 
+### Jira lookup
+
+With `JIRA_BASE_URL`, `JIRA_EMAIL` and `JIRA_API_TOKEN` set, the actions get a
+read-only `jira_lookup` tool. When a note mentions an issue key like `WH-1234`,
+Claude can fetch that ticket's summary, status, assignee, description and
+recent comments before answering. One operation only — it cannot search, write
+or transition anything. Without the env vars the tool is never offered.
+
+> **PHI warning.** Waltz is a HIPAA-covered entity and Jira issues can contain
+> patient detail in descriptions and comments. This fetches those fields and
+> sends them to the Anthropic API. Ticket content is never written to logs
+> (the error paths deliberately exclude response bodies), but it does leave
+> your infrastructure. Confirm this fits your BAA before configuring it.
+
 ## Sync with the macOS app
 
 The macOS client pushes and pulls through `POST /api/sync` — one round trip
