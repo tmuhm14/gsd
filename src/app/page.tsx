@@ -16,7 +16,7 @@ export default function HomePage() {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
-  const [bucket, setBucket] = useState<Bucket>("inbox");
+  const [bucket, setBucket] = useState<Bucket>("quick");
   const [openId, setOpenId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [showInspector, setShowInspector] = useState(false);
@@ -103,9 +103,11 @@ export default function HomePage() {
             <p className="p-6 text-center text-sm text-neutral-500">
               {search.trim()
                 ? "No matches."
-                : bucket === "inbox"
-                  ? "Inbox zero. Tap + to capture something."
-                  : "Nothing here yet."}
+                : bucket === "quick"
+                  ? "Nothing jotted down. Tap + to capture a thought."
+                  : bucket === "inbox"
+                    ? "Inbox zero. Clarify a quick note to move it along."
+                    : "Nothing here yet."}
             </p>
           ) : (
             items.map((item) => (

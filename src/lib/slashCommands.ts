@@ -32,6 +32,7 @@ export const SLASH_COMMANDS: SlashCommand[] = [
   { id: "bullet", title: "Bulleted list", subtitle: "Simple bullet", keywords: ["list", "ul"], group: "Blocks", action: { type: "marker", marker: "- " } },
   { id: "numbered", title: "Numbered list", subtitle: "Ordered list item", keywords: ["ol", "ordered"], group: "Blocks", action: { type: "marker", marker: "1. " } },
   { id: "quote", title: "Quote", subtitle: "Callout or quotation", keywords: ["blockquote"], group: "Blocks", action: { type: "marker", marker: "> " } },
+  { id: "link", title: "Link", subtitle: "Insert a web link", keywords: ["url", "href", "web", "http"], group: "Blocks", action: { type: "insert", text: "[](https://)" } },
   { id: "divider", title: "Divider", subtitle: "Horizontal rule", keywords: ["hr", "rule"], group: "Blocks", action: { type: "insert", text: "---\n" } },
   { id: "context", title: "Context", subtitle: "Insert an @context tag", keywords: ["tag", "at"], group: "Blocks", action: { type: "insert", text: "@" } },
 

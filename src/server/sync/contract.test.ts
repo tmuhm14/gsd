@@ -72,6 +72,13 @@ describe("the macOS client's payload", () => {
     expect(parsed.changes.some((item) => item.deletedAt !== null)).toBe(true);
   });
 
+  it("includes an item in the newest bucket", () => {
+    // Proves the server's enum and the client's vocabulary still agree after
+    // a bucket is added on one side.
+    const parsed = requestSchema.parse(payload);
+    expect(parsed.changes.some((item) => item.bucket === "quick")).toBe(true);
+  });
+
   it("sends lowercase UUIDs, which Postgres expects", () => {
     const parsed = requestSchema.parse(payload);
     for (const item of parsed.changes) {

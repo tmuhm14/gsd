@@ -3,6 +3,8 @@
  * and `ItemKind` so the two can share one database when sync lands.
  */
 export const BUCKETS = [
+  /** Scratch space: get the thought down now, decide what it is later. */
+  "quick",
   "inbox",
   "next",
   "waiting",
@@ -17,6 +19,7 @@ export type Bucket = (typeof BUCKETS)[number];
 
 /** Buckets an item can be filed into while clarifying — trash is a button. */
 export const CLARIFY_BUCKETS: readonly Bucket[] = [
+  "quick",
   "inbox",
   "next",
   "waiting",
@@ -27,6 +30,7 @@ export const CLARIFY_BUCKETS: readonly Bucket[] = [
 ];
 
 export const BUCKET_LABELS: Record<Bucket, string> = {
+  quick: "Quick Notes",
   inbox: "Inbox",
   next: "Next Actions",
   waiting: "Waiting For",

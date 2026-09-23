@@ -129,7 +129,7 @@ function Section({
 }) {
   return (
     <div className="space-y-1.5">
-      <p className="text-[10px] font-semibold uppercase tracking-wide text-neutral-500">
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">
         {title}
       </p>
       {children}

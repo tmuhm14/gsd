@@ -57,7 +57,7 @@ export function ItemRow({ item, active, onOpen, onToggleDone }: Props) {
           <p className="mt-0.5 truncate text-xs text-neutral-500">{preview}</p>
         ) : null}
 
-        <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-neutral-500">
+        <div className="mt-1 flex flex-wrap gap-2 text-[12px] text-neutral-500">
           {item.dueDate ? (
             <span className={overdue ? "text-red-400" : undefined}>
               {item.dueDate.toLocaleDateString(undefined, {

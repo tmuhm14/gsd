@@ -18,6 +18,15 @@ The macOS app lives in `../task-notes-app`.
 | Tests | Vitest |
 | Package manager | pnpm |
 
+## Buckets
+
+**Quick Notes** sits ahead of Inbox: scratch space for a thought you don't want
+to classify yet. New notes land there, and you file them later. Inbox stays
+what GTD means by it — things already awaiting a clarifying decision.
+
+Filing something into Quick Notes never promotes a note to an action; it isn't
+a commitment.
+
 ## Mobile
 
 This is a mobile-first responsive PWA, not a native app. It's installable to an
@@ -142,6 +151,11 @@ that no action can drop text the user wrote.
 **`session.ts` and `password.ts` are separate on purpose.** Edge middleware
 imports the session config; `node:crypto` is not available there, so pulling
 password hashing into middleware breaks the build.
+
+## Links
+
+`/link` inserts a markdown link. The editor here is a plain textarea, so links
+are stored and edited as text — the macOS app renders them clickable.
 
 ## Not built yet
 

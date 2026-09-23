@@ -47,6 +47,22 @@
       "projectId" : null,
       "updatedAt" : "2026-06-09T10:13:20.000Z",
       "waitingOn" : null
+    },
+    {
+      "body" : "Jotted while on a call\nsee https:\/\/example.com\/spec",
+      "bucket" : "quick",
+      "completedAt" : null,
+      "createdAt" : "2026-06-21T00:00:00.000Z",
+      "deferDate" : null,
+      "deletedAt" : null,
+      "dueDate" : null,
+      "energy" : null,
+      "id" : "d27c9a04-61b8-4f52-b3ee-7a1c48e05f33",
+      "kind" : "note",
+      "pinned" : false,
+      "projectId" : null,
+      "updatedAt" : "2026-06-21T00:00:00.000Z",
+      "waitingOn" : null
     }
   ],
   "since" : 0
