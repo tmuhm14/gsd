@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: GTD Notes sync API
+  title: GSD sync API
   version: 1.0.0
   description: |
     Delta sync between the macOS client (task-notes-app) and this service.

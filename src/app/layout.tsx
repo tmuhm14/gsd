@@ -3,9 +3,9 @@ import { TRPCProvider } from "@/components/TRPCProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "GTD Notes",
+  title: "GSD — Get Sh*t Done",
   description: "Notes and tasks, organised the Getting Things Done way.",
-  appleWebApp: { capable: true, title: "Notes", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "GSD", statusBarStyle: "black-translucent" },
 };
 
 export const viewport: Viewport = {

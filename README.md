@@ -1,4 +1,4 @@
-# task-notes-web
+# GSD — Get Sh*t Done
 
 Web and mobile companion to the macOS **GTD Notes** app. Same Getting Things
 Done model, same markdown note format, deployed to Vercel on Neon Postgres.
