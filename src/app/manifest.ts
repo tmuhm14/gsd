@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 /** Makes the app installable to an iOS/Android home screen. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "GTD Notes",
-    short_name: "Notes",
+    name: "GSD — Get Sh*t Done",
+    short_name: "GSD",
     description: "Notes and tasks, organised the Getting Things Done way.",
     start_url: "/",
     display: "standalone",

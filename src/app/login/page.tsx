@@ -39,7 +39,7 @@ export default function LoginPage() {
         className="w-full max-w-sm space-y-4 rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6"
       >
         <div className="space-y-1">
-          <h1 className="text-lg font-semibold">GTD Notes</h1>
+          <h1 className="text-lg font-semibold">GSD — Get Sh*t Done</h1>
           <p className="text-sm text-neutral-400">Sign in to continue.</p>
         </div>
 
